@@ -7,7 +7,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'ALLORDSWEETS_THEME_VERSION', '0.2.1' );
+define( 'ALLORDSWEETS_THEME_VERSION', '0.2.2' );
 define( 'ALLORDSWEETS_THEME_DIR', get_stylesheet_directory() );
 define( 'ALLORDSWEETS_THEME_URI', get_stylesheet_directory_uri() );
 
