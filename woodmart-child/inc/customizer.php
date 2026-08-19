@@ -18,7 +18,7 @@ function allordsweets_sanitize_checkbox( $checked ) {
 }
 
 /**
- * Sanitize desktop menu background mode.
+ * Sanitize header background mode.
  *
  * @param string $value Raw value.
  * @return string
@@ -38,7 +38,7 @@ function allordsweets_customize_register( $wp_customize ) {
 		'allordsweets_header',
 		array(
 			'title'       => __( 'Allord Header', 'allordsweets' ),
-			'description' => __( 'Logo, Topbar, Desktop-Menü und Warenkorb-Verhalten des eigenen Allord Headers.', 'allordsweets' ),
+			'description' => __( 'Logo, kompletter Header-Hintergrund, Navigation und Warenkorb-Verhalten.', 'allordsweets' ),
 			'priority'    => 25,
 		)
 	);
@@ -147,7 +147,7 @@ function allordsweets_customize_register( $wp_customize ) {
 		'allordsweets_header_menu_width',
 		array(
 			'label'       => __( 'Menü-Breite Desktop (px)', 'allordsweets' ),
-			'description' => __( 'Die Hauptmenüpunkte werden innerhalb dieser Breite gleichmäßig verteilt.', 'allordsweets' ),
+			'description' => __( 'Die Hauptmenüpunkte werden innerhalb dieser Breite exakt gleichmäßig verteilt.', 'allordsweets' ),
 			'section'     => 'allordsweets_header',
 			'type'        => 'number',
 			'input_attrs' => array(
@@ -158,6 +158,10 @@ function allordsweets_customize_register( $wp_customize ) {
 		)
 	);
 
+	/*
+	 * Existing setting IDs intentionally remain unchanged so values selected
+	 * in v0.2.3 are preserved. From v0.2.4 they apply to the complete header.
+	 */
 	$wp_customize->add_setting(
 		'allordsweets_header_menu_background_type',
 		array(
@@ -168,10 +172,11 @@ function allordsweets_customize_register( $wp_customize ) {
 	$wp_customize->add_control(
 		'allordsweets_header_menu_background_type',
 		array(
-			'label'   => __( 'Menü-Hintergrund', 'allordsweets' ),
-			'section' => 'allordsweets_header',
-			'type'    => 'select',
-			'choices' => array(
+			'label'       => __( 'Gesamter Header-Hintergrund', 'allordsweets' ),
+			'description' => __( 'Gilt für Topbar, Logo-Bereich und Navigation auf Desktop, Tablet und Mobil.', 'allordsweets' ),
+			'section'     => 'allordsweets_header',
+			'type'        => 'select',
+			'choices'     => array(
 				'transparent' => __( 'Transparent', 'allordsweets' ),
 				'color'       => __( 'Farbe', 'allordsweets' ),
 				'image'       => __( 'Bild', 'allordsweets' ),
@@ -191,7 +196,7 @@ function allordsweets_customize_register( $wp_customize ) {
 			$wp_customize,
 			'allordsweets_header_menu_background_color',
 			array(
-				'label'   => __( 'Menü-Hintergrundfarbe', 'allordsweets' ),
+				'label'   => __( 'Header-Hintergrundfarbe', 'allordsweets' ),
 				'section' => 'allordsweets_header',
 			)
 		)
@@ -209,8 +214,8 @@ function allordsweets_customize_register( $wp_customize ) {
 			$wp_customize,
 			'allordsweets_header_menu_background_image',
 			array(
-				'label'       => __( 'Menü-Hintergrundbild', 'allordsweets' ),
-				'description' => __( 'Wird verwendet, wenn bei Menü-Hintergrund „Bild“ gewählt ist.', 'allordsweets' ),
+				'label'       => __( 'Header-Hintergrundbild', 'allordsweets' ),
+				'description' => __( 'Wird über den kompletten Header gelegt, wenn „Bild“ gewählt ist.', 'allordsweets' ),
 				'section'     => 'allordsweets_header',
 				'settings'    => 'allordsweets_header_menu_background_image',
 			)
@@ -250,7 +255,7 @@ function allordsweets_filter_header_shipping_message( $default ) {
 add_filter( 'allordsweets_header_shipping_message', 'allordsweets_filter_header_shipping_message' );
 
 /**
- * Output Customizer CSS for header sizing and desktop menu background.
+ * Output Customizer CSS for header sizing, full header background and menu width.
  */
 function allordsweets_header_customizer_css() {
 	$desktop         = min( 600, max( 140, absint( get_theme_mod( 'allordsweets_header_logo_width', 350 ) ) ) );
@@ -264,13 +269,21 @@ function allordsweets_header_customizer_css() {
 	<style id="allordsweets-header-customizer-css">
 		.allord-logo img{width:min(<?php echo esc_html( (string) $desktop ); ?>px,34vw)}
 		.allord-primary-menu{width:min(100%,<?php echo esc_html( (string) $menu_width ); ?>px)}
+
+		/* Child rows stay transparent so the selected design is one continuous header surface. */
+		.allord-site-header .allord-topbar,
+		.allord-site-header .allord-header-main,
+		.allord-site-header .allord-desktop-nav,
+		.allord-site-header .allord-mobile-header{background:transparent !important;background-color:transparent !important;background-image:none !important}
+
 		<?php if ( 'color' === $background_type ) : ?>
-		.allord-desktop-nav{background-color:<?php echo esc_html( $background ); ?>;background-image:none}
+		.allord-site-header{background:<?php echo esc_html( $background ); ?> !important;background-color:<?php echo esc_html( $background ); ?> !important;background-image:none !important}
 		<?php elseif ( 'image' === $background_type && $background_img ) : ?>
-		.allord-desktop-nav{background-color:<?php echo esc_html( $background ); ?>;background-image:url('<?php echo esc_url( $background_img ); ?>');background-repeat:no-repeat;background-position:center;background-size:cover}
+		.allord-site-header{background-color:<?php echo esc_html( $background ); ?> !important;background-image:url('<?php echo esc_url( $background_img ); ?>') !important;background-repeat:no-repeat !important;background-position:center center !important;background-size:cover !important}
 		<?php else : ?>
-		.allord-desktop-nav{background-color:transparent;background-image:none}
+		.allord-site-header{background:transparent !important;background-color:transparent !important;background-image:none !important}
 		<?php endif; ?>
+
 		@media(max-width:1023px){.allord-mobile-logo img{width:min(<?php echo esc_html( (string) $mobile ); ?>px,31vw)}}
 		@media(max-width:767px){.allord-mobile-logo img{width:min(<?php echo esc_html( (string) $mobile ); ?>px,43vw)}}
 	</style>
