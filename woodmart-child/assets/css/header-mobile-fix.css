@@ -1,0 +1,90 @@
+/* Mobile header control visibility fixes.
+ * Kept separate so WoodMart/global button rules cannot hide the controls.
+ */
+@media (max-width: 1023px) {
+	button.allord-mobile-menu-toggle,
+	button.allord-mobile-menu-close {
+		position: relative !important;
+		z-index: 5 !important;
+		display: inline-flex !important;
+		align-items: center !important;
+		justify-content: center !important;
+		width: 42px !important;
+		height: 42px !important;
+		min-width: 42px !important;
+		min-height: 42px !important;
+		padding: 0 !important;
+		margin: 0 !important;
+		border: 0 !important;
+		border-radius: 0 !important;
+		background: transparent !important;
+		box-shadow: none !important;
+		color: var(--allord-gold-dark, #8f6b12) !important;
+		opacity: 1 !important;
+		visibility: visible !important;
+		font-size: 0 !important;
+		line-height: 1 !important;
+		cursor: pointer !important;
+	}
+
+	button.allord-mobile-menu-toggle:hover,
+	button.allord-mobile-menu-toggle:focus,
+	button.allord-mobile-menu-toggle:focus-visible,
+	button.allord-mobile-menu-close:hover,
+	button.allord-mobile-menu-close:focus,
+	button.allord-mobile-menu-close:focus-visible {
+		background: transparent !important;
+		color: var(--allord-gold, #b58a1f) !important;
+		outline: 1px solid rgba(181, 138, 31, 0.35) !important;
+		outline-offset: 2px !important;
+	}
+
+	button.allord-mobile-menu-toggle .allord-header-icon,
+	button.allord-mobile-menu-close .allord-header-icon {
+		display: inline-flex !important;
+		width: 26px !important;
+		height: 26px !important;
+		color: inherit !important;
+		opacity: 1 !important;
+		visibility: visible !important;
+	}
+
+	button.allord-mobile-menu-toggle svg,
+	button.allord-mobile-menu-close svg,
+	button.allord-mobile-menu-toggle svg path,
+	button.allord-mobile-menu-close svg path {
+		display: block !important;
+		fill: none !important;
+		stroke: currentColor !important;
+		stroke-width: 1.8 !important;
+		opacity: 1 !important;
+		visibility: visible !important;
+	}
+
+	.allord-mobile-menu-toggle {
+		justify-self: start !important;
+	}
+
+	.allord-mobile-drawer-head {
+		position: relative;
+		z-index: 3;
+		background: #fff;
+	}
+
+	.allord-mobile-drawer-title {
+		color: #252525;
+	}
+
+	/* WordPress admin toolbar otherwise covers the drawer close button. */
+	body.admin-bar .allord-mobile-drawer {
+		top: 32px;
+		height: calc(100dvh - 32px);
+	}
+}
+
+@media (max-width: 782px) {
+	body.admin-bar .allord-mobile-drawer {
+		top: 46px;
+		height: calc(100dvh - 46px);
+	}
+}
