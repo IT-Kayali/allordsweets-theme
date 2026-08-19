@@ -21,6 +21,7 @@ function allordsweets_enqueue_assets() {
 		'global',
 		'header',
 		'header-mobile-fix',
+		'header-menu-custom',
 		'footer',
 		'shop',
 		'product-card',
