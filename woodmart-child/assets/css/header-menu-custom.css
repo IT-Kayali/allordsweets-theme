@@ -1,32 +1,67 @@
 /* Desktop menu alignment and Customizer background support. */
 @media (min-width: 1024px) {
+	.allord-desktop-nav,
 	.allord-desktop-nav-inner {
-		display: flex;
-		align-items: stretch;
-		justify-content: center;
+		min-height: 56px;
+	}
+
+	.allord-desktop-nav-inner {
+		display: flex !important;
+		align-items: center !important;
+		justify-content: center !important;
+		padding-top: 0 !important;
+		padding-bottom: 0 !important;
 	}
 
 	.allord-primary-menu {
 		display: grid !important;
-		grid-auto-flow: column;
-		grid-auto-columns: minmax(0, 1fr);
-		align-items: stretch;
-		justify-content: initial;
+		grid-auto-flow: column !important;
+		grid-auto-columns: minmax(0, 1fr) !important;
+		align-items: stretch !important;
+		justify-content: initial !important;
 		gap: 0 !important;
-		min-height: 50px;
-		margin-inline: auto !important;
+		height: 56px !important;
+		min-height: 56px !important;
+		margin: 0 auto !important;
+		padding: 0 !important;
 	}
 
 	.allord-primary-menu > li {
-		display: flex;
-		min-width: 0;
+		display: grid !important;
+		place-items: center !important;
+		align-self: stretch !important;
+		min-width: 0 !important;
+		height: 56px !important;
+		margin: 0 !important;
+		padding: 0 !important;
+		line-height: 1 !important;
+		vertical-align: middle !important;
 	}
 
 	.allord-primary-menu > li > a {
-		justify-content: center;
-		width: 100%;
-		padding-inline: 14px;
-		text-align: center;
-		white-space: nowrap;
+		display: grid !important;
+		place-items: center !important;
+		align-self: stretch !important;
+		width: 100% !important;
+		height: 56px !important;
+		min-height: 56px !important;
+		margin: 0 !important;
+		padding: 0 14px !important;
+		line-height: 1 !important;
+		text-align: center !important;
+		white-space: nowrap !important;
+		vertical-align: middle !important;
+		transform: none !important;
+	}
+
+	.allord-primary-menu > li > a > *,
+	.allord-primary-menu > li > a span {
+		position: static !important;
+		display: inline-block !important;
+		margin: 0 !important;
+		padding: 0 !important;
+		line-height: 1 !important;
+		vertical-align: middle !important;
+		transform: none !important;
 	}
 }
