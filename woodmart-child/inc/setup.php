@@ -10,6 +10,16 @@ defined( 'ABSPATH' ) || exit;
 function allordsweets_child_setup() {
 	load_child_theme_textdomain( 'allordsweets', ALLORDSWEETS_THEME_DIR . '/languages' );
 
+	add_theme_support(
+		'custom-logo',
+		array(
+			'height'      => 140,
+			'width'       => 500,
+			'flex-height' => true,
+			'flex-width'  => true,
+		)
+	);
+
 	register_nav_menus(
 		array(
 			'allordsweets-primary' => __( 'Allord Primary Menu', 'allordsweets' ),
