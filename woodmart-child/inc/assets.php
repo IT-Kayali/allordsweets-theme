@@ -20,6 +20,7 @@ function allordsweets_enqueue_assets() {
 	$styles = array(
 		'global',
 		'header',
+		'header-mobile-fix',
 		'footer',
 		'shop',
 		'product-card',
