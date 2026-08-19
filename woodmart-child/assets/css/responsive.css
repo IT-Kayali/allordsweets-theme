@@ -1,0 +1,16 @@
+/* Shared responsive rules. Feature-specific breakpoints are added alongside each module. */
+@media (max-width: 1023px) {
+	.allord-section {
+		padding-block: 48px;
+	}
+}
+
+@media (max-width: 767px) {
+	.allord-container {
+		width: min(100% - 24px, var(--allord-container));
+	}
+
+	.allord-section {
+		padding-block: 36px;
+	}
+}
