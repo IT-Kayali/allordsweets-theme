@@ -11,8 +11,12 @@ defined( 'ABSPATH' ) || exit;
  * Return the storefront logo URL.
  */
 function allordsweets_get_header_logo_url() {
-	$custom_logo_id = get_theme_mod( 'custom_logo' );
+	$allord_logo = get_theme_mod( 'allordsweets_header_logo', '' );
+	if ( $allord_logo ) {
+		return $allord_logo;
+	}
 
+	$custom_logo_id = get_theme_mod( 'custom_logo' );
 	if ( $custom_logo_id ) {
 		$logo = wp_get_attachment_image_url( $custom_logo_id, 'full' );
 		if ( $logo ) {
@@ -131,18 +135,54 @@ function allordsweets_get_cart_data() {
 }
 
 /**
+ * Whether the native WoodMart cart sidebar should be used.
+ *
+ * @return bool
+ */
+function allordsweets_use_cart_sidebar() {
+	return (bool) get_theme_mod( 'allordsweets_header_cart_sidebar', true );
+}
+
+/**
+ * Make sure WoodMart's cart assets are available for our custom opener.
+ */
+function allordsweets_prepare_woodmart_cart_sidebar() {
+	if ( ! allordsweets_use_cart_sidebar() ) {
+		return;
+	}
+
+	if ( function_exists( 'woodmart_enqueue_inline_style' ) ) {
+		woodmart_enqueue_inline_style( 'header-cart' );
+		woodmart_enqueue_inline_style( 'header-cart-side' );
+		woodmart_enqueue_inline_style( 'widget-shopping-cart' );
+	}
+
+	if ( function_exists( 'woodmart_enqueue_js_script' ) ) {
+		woodmart_enqueue_js_script( 'cart-widget' );
+	}
+}
+add_action( 'wp_enqueue_scripts', 'allordsweets_prepare_woodmart_cart_sidebar', 50 );
+
+/**
  * Render the shared cart summary markup.
  */
 function allordsweets_render_cart_summary() {
-	$cart = allordsweets_get_cart_data();
+	$cart    = allordsweets_get_cart_data();
+	$classes = 'allord-cart-widget';
+
+	if ( allordsweets_use_cart_sidebar() ) {
+		$classes .= ' cart-widget-opener';
+	}
 	?>
-	<a class="allord-cart-summary" href="<?php echo esc_url( $cart['url'] ); ?>" aria-label="<?php esc_attr_e( 'Warenkorb öffnen', 'allordsweets' ); ?>">
-		<span class="allord-header-icon allord-cart-icon" aria-hidden="true">
-			<?php echo allordsweets_header_icon( 'cart' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-			<span class="allord-cart-count"><?php echo esc_html( (string) $cart['count'] ); ?></span>
-		</span>
-		<span class="allord-cart-total"><?php echo wp_kses_post( $cart['subtotal'] ); ?></span>
-	</a>
+	<div class="<?php echo esc_attr( $classes ); ?>">
+		<a class="allord-cart-summary" href="<?php echo esc_url( $cart['url'] ); ?>" aria-label="<?php esc_attr_e( 'Warenkorb öffnen', 'allordsweets' ); ?>">
+			<span class="allord-header-icon allord-cart-icon" aria-hidden="true">
+				<?php echo allordsweets_header_icon( 'cart' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+				<span class="allord-cart-count"><?php echo esc_html( (string) $cart['count'] ); ?></span>
+			</span>
+			<span class="allord-cart-total"><?php echo wp_kses_post( $cart['subtotal'] ); ?></span>
+		</a>
+	</div>
 	<?php
 }
 
@@ -155,7 +195,7 @@ function allordsweets_render_cart_summary() {
 function allordsweets_cart_fragments( $fragments ) {
 	ob_start();
 	allordsweets_render_cart_summary();
-	$fragments['a.allord-cart-summary'] = ob_get_clean();
+	$fragments['div.allord-cart-widget'] = ob_get_clean();
 	return $fragments;
 }
 add_filter( 'woocommerce_add_to_cart_fragments', 'allordsweets_cart_fragments' );
