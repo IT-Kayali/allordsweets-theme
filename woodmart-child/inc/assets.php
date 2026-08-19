@@ -13,7 +13,7 @@ function allordsweets_enqueue_assets() {
 	wp_enqueue_style(
 		'allordsweets-child',
 		get_stylesheet_uri(),
-		array(),
+		array( 'woodmart-style' ),
 		$version
 	);
 
@@ -44,4 +44,4 @@ function allordsweets_enqueue_assets() {
 		true
 	);
 }
-add_action( 'wp_enqueue_scripts', 'allordsweets_enqueue_assets', 30 );
+add_action( 'wp_enqueue_scripts', 'allordsweets_enqueue_assets', 1000 );
