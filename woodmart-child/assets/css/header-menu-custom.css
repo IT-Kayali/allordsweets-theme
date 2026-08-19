@@ -1,0 +1,32 @@
+/* Desktop menu alignment and Customizer background support. */
+@media (min-width: 1024px) {
+	.allord-desktop-nav-inner {
+		display: flex;
+		align-items: stretch;
+		justify-content: center;
+	}
+
+	.allord-primary-menu {
+		display: grid !important;
+		grid-auto-flow: column;
+		grid-auto-columns: minmax(0, 1fr);
+		align-items: stretch;
+		justify-content: initial;
+		gap: 0 !important;
+		min-height: 50px;
+		margin-inline: auto !important;
+	}
+
+	.allord-primary-menu > li {
+		display: flex;
+		min-width: 0;
+	}
+
+	.allord-primary-menu > li > a {
+		justify-content: center;
+		width: 100%;
+		padding-inline: 14px;
+		text-align: center;
+		white-space: nowrap;
+	}
+}
